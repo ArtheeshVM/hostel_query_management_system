@@ -22,83 +22,67 @@ public class UserController {
     @GetMapping("/user/{id}")
     public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
         Optional<User> user = userRepository.findById(id);
-        if (user.isPresent()) {
-            return new ResponseEntity<>(user.get(), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return user.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+                   .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping("/user")
     public ResponseEntity<User> createUser(@RequestBody User user) {
         try {
-            User us = new User(user.getName(), user.getEmail(), user.getPassword(), user.getRole());
-            User _user = userRepository.save(us);
-
-            return new ResponseEntity<>(_user, HttpStatus.CREATED);
+            User newUser = new User(user.getName(), user.getEmail(), user.getPassword(), user.getRole());
+            User savedUser = userRepository.save(newUser);
+            return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity<>((User) null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PutMapping("/user/{id}")
     public ResponseEntity<User> updateUser(@PathVariable("id") Long id, @RequestBody User user) {
         Optional<User> userData = userRepository.findById(id);
-
         if (userData.isPresent()) {
-            User _user = userData.get();
-            _user.setName(user.getName());
-            _user.setEmail(user.getEmail());
-            _user.setPassword(user.getPassword());
-            _user.setRole(user.getRole());
-
-            return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            User existingUser = userData.get();
+            existingUser.setName(user.getName());
+            existingUser.setEmail(user.getEmail());
+            existingUser.setPassword(user.getPassword());
+            existingUser.setRole(user.getRole());
+            return new ResponseEntity<>(userRepository.save(existingUser), HttpStatus.OK);
         }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping("/user/{id}")
-    public ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") Long id){
+    public ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") Long id) {
         try {
             userRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } 
-        catch (Exception e) {
+        } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @DeleteMapping("/user")
-    public ResponseEntity<HttpStatus> deleteAllUser(){
+    public ResponseEntity<HttpStatus> deleteAllUsers() {
         try {
             userRepository.deleteAll();
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } 
-        catch (Exception e) {
+        } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/user")
-    public ResponseEntity<List<User>> getAllUser(@RequestParam(required = false) String role){
+    public ResponseEntity<List<User>> getAllUsers(@RequestParam(required = false) String role) {
         try {
-            List<User> users=new ArrayList<>();
-            userRepository.findAll().forEach(users::add);
-            return new ResponseEntity<>(users,HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>((List<User>)null,HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @GetMapping("/user/role/{role}")
-    public ResponseEntity<List<User>> getUsersByRole(@PathVariable String role){
-        try{
-            List<User> users=userRepository.findByRole(role.toUpperCase());
+            List<User> users = new ArrayList<>();
+            if (role == null) {
+                userRepository.findAll().forEach(users::add);
+            } else {
+                users = userRepository.findByRole(role.toUpperCase());
+            }
             return new ResponseEntity<>(users, HttpStatus.OK);
-        }
-        catch(Exception e){
-            return new ResponseEntity<>((List<User>)null, HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

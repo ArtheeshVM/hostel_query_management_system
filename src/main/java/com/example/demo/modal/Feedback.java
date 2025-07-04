@@ -1,57 +1,43 @@
 package com.example.demo.modal;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
-import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(name = "feedback")
 public class Feedback {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
-    @Column(name = "query_id", nullable = false)
-    private Long queryId;
+    @Column(name = "student_name")
+    private String studentName;
 
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
+    @Column(name = "room_number")
+    private String roomNumber;
 
-    @Column(nullable = false)
-    private Integer rating;
-
-    @Column(columnDefinition = "TEXT")
-    private String comment;
-
-    @CreationTimestamp
-    @Column(name = "created_at",updatable = false)
-    private LocalDateTime createdAt;
+    @Column(name = "description")
+    private String description;
 
     public Feedback() {}
 
-    public Feedback(Long queryId, Long userId, Integer rating, String comment) {
-        this.queryId = queryId;
-        this.userId = userId;
-        this.rating = rating;
-        this.comment = comment;
+    public Feedback(String studentName, String roomNumber, String description) {
+        this.studentName = studentName;
+        this.roomNumber = roomNumber;
+        this.description = description;
     }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    // Getters and setters...
 
-    public Long getQueryId() { return queryId; }
-    public void setQueryId(Long queryId) { this.queryId = queryId; }
+    public long getId() { return id; }
+    public void setId(long id) { this.id = id; }
 
-    public Long getUserId() { return userId; }
-    public void setUserId(Long userId) { this.userId = userId; }
+    public String getStudentName() { return studentName; }
+    public void setStudentName(String studentName) { this.studentName = studentName; }
 
-    public Integer getRating() { return rating; }
-    public void setRating(Integer rating) { this.rating = rating; }
+    public String getRoomNumber() { return roomNumber; }
+    public void setRoomNumber(String roomNumber) { this.roomNumber = roomNumber; }
 
-    public String getComment() { return comment; }
-    public void setComment(String comment) { this.comment = comment; }
-
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
 }

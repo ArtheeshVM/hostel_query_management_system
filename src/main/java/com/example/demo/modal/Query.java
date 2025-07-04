@@ -1,7 +1,6 @@
 package com.example.demo.modal;
 
 import java.time.LocalDateTime;
-
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -32,11 +31,9 @@ public class Query {
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
+    public Query() {}
 
-    public Query() {
-    }
-
-    public Query(String studentName, String roomNumber, String queryType, String description,String status) {
+    public Query(String studentName, String roomNumber, String queryType, String description, String status) {
         this.studentName = studentName;
         this.roomNumber = roomNumber;
         this.queryType = queryType;
@@ -44,60 +41,26 @@ public class Query {
         this.status = status;
     }
 
+    // Getters and setters ...
 
-    public long getId() {
-        return id;
-    }
+    public long getId() { return id; }
+    public void setId(long id) { this.id = id; }
 
-    public void setId(long id) {
-        this.id = id;
-    }
+    public String getStudentName() { return studentName; }
+    public void setStudentName(String studentName) { this.studentName = studentName; }
 
-    public String getStudentName() {
-        return studentName;
-    }
+    public String getRoomNumber() { return roomNumber; }
+    public void setRoomNumber(String roomNumber) { this.roomNumber = roomNumber; }
 
-    public void setStudentName(String studentName) {
-        this.studentName = studentName;
-    }
+    public String getQueryType() { return queryType; }
+    public void setQueryType(String queryType) { this.queryType = queryType; }
 
-    public String getRoomNumber() {
-        return roomNumber;
-    }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
 
-    public void setRoomNumber(String roomNumber) {
-        this.roomNumber = roomNumber;
-    }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 
-    public String getQueryType() {
-        return queryType;
-    }
-
-    public void setQueryType(String queryType) {
-        this.queryType = queryType;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 }

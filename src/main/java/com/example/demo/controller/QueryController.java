@@ -33,7 +33,7 @@ public class QueryController {
             Query savedQuery = queryRepository.save(newQuery);
             return new ResponseEntity<>(savedQuery, HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
@@ -83,7 +83,7 @@ public class QueryController {
             }
             return new ResponseEntity<>(queries, HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 }

@@ -32,7 +32,7 @@ public class FeedbackController {
             Feedback savedFeedback = feedbackRepository.save(newFeedback);
             return new ResponseEntity<>(savedFeedback, HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
@@ -75,7 +75,7 @@ public class FeedbackController {
             List<Feedback> feedbacks = feedbackRepository.findAll();
             return new ResponseEntity<>(feedbacks, HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 }
